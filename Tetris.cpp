@@ -164,19 +164,63 @@ void Tetris::keyPressEvent(QKeyEvent* event) {
 					break;
 				}
 			}
-			else if (now_block->type == 1) {
+			else if (now_block->type == 2) {
 				switch (now_block->state) {
 				case 0:
+					map[now_block->location[0].extract_y()][now_block->location[0].extract_x()] = 0;
+					map[now_block->location[1].extract_y()][now_block->location[1].extract_x()] = 0;
+					map[now_block->location[2].extract_y()][now_block->location[2].extract_x()] = 0;
+
+					map[now_block->location[0].extract_y() + 1][now_block->location[0].extract_x() + 1] = now_block->block_num;
+					map[now_block->location[1].extract_y() + 2][now_block->location[1].extract_x()] = now_block->block_num;
+					map[now_block->location[2].extract_y() - 1][now_block->location[2].extract_x() + 1] = now_block->block_num;
+
+					now_block->location[0].set(now_block->location[0].extract_x() + 1, now_block->location[0].extract_y() + 1);
+					now_block->location[1].set(now_block->location[1].extract_x(), now_block->location[1].extract_y() + 2);
+					now_block->location[2].set(now_block->location[2].extract_x() + 1, now_block->location[2].extract_y() - 1);
 					++now_block->state;
 					break;
 				case 1:
+					map[now_block->location[0].extract_y()][now_block->location[0].extract_x()] = 0;
+					map[now_block->location[1].extract_y()][now_block->location[1].extract_x()] = 0;
+					map[now_block->location[2].extract_y()][now_block->location[2].extract_x()] = 0;
+
+					map[now_block->location[0].extract_y() - 1][now_block->location[0].extract_x() + 1] = now_block->block_num;
+					map[now_block->location[1].extract_y()][now_block->location[1].extract_x() + 2] = now_block->block_num;
+					map[now_block->location[2].extract_y() - 1][now_block->location[2].extract_x() - 1] = now_block->block_num;
+
+					now_block->location[0].set(now_block->location[0].extract_x() + 1, now_block->location[0].extract_y() - 1);
+					now_block->location[1].set(now_block->location[1].extract_x() + 2, now_block->location[1].extract_y());
+					now_block->location[2].set(now_block->location[2].extract_x() - 1, now_block->location[2].extract_y() - 1);
 					++now_block->state;
 					break;
 				case 2:
+					map[now_block->location[0].extract_y()][now_block->location[0].extract_x()] = 0;
+					map[now_block->location[1].extract_y()][now_block->location[1].extract_x()] = 0;
+					map[now_block->location[2].extract_y()][now_block->location[2].extract_x()] = 0;
+
+					map[now_block->location[0].extract_y() - 1][now_block->location[0].extract_x() - 1] = now_block->block_num;
+					map[now_block->location[1].extract_y() - 2][now_block->location[1].extract_x()] = now_block->block_num;
+					map[now_block->location[2].extract_y() + 1][now_block->location[2].extract_x() - 1] = now_block->block_num;
+
+					now_block->location[0].set(now_block->location[0].extract_x() - 1, now_block->location[0].extract_y() - 1);
+					now_block->location[1].set(now_block->location[1].extract_x(), now_block->location[1].extract_y() - 2);
+					now_block->location[2].set(now_block->location[2].extract_x() - 1, now_block->location[2].extract_y() + 1);
 					++now_block->state;
 					break;
 				case 3:
-					now_block = 0;
+					map[now_block->location[0].extract_y()][now_block->location[0].extract_x()] = 0;
+					map[now_block->location[1].extract_y()][now_block->location[1].extract_x()] = 0;
+					map[now_block->location[2].extract_y()][now_block->location[2].extract_x()] = 0;
+
+					map[now_block->location[0].extract_y() + 1][now_block->location[0].extract_x() - 1] = now_block->block_num;
+					map[now_block->location[1].extract_y()][now_block->location[1].extract_x() - 2] = now_block->block_num;
+					map[now_block->location[2].extract_y() + 1][now_block->location[2].extract_x() + 1] = now_block->block_num;
+
+					now_block->location[0].set(now_block->location[0].extract_x() - 1, now_block->location[0].extract_y() + 1);
+					now_block->location[1].set(now_block->location[1].extract_x() - 2, now_block->location[1].extract_y());
+					now_block->location[2].set(now_block->location[2].extract_x() + 1, now_block->location[2].extract_y() + 1);
+					now_block->state = 0;
 					break;
 				}
 			}
