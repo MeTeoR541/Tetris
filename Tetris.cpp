@@ -284,6 +284,38 @@ void Tetris::keyPressEvent(QKeyEvent* event) {
 					break;
 				}
 			}
+			else if (now_block->type == 0) {
+				switch (now_block->state) {
+				case 0:
+					map[now_block->location[0].extract_y()][now_block->location[0].extract_x()] = 0;
+					map[now_block->location[1].extract_y()][now_block->location[1].extract_x()] = 0;
+					map[now_block->location[2].extract_y()][now_block->location[2].extract_x()] = 0;
+
+					map[now_block->location[0].extract_y() + 1][now_block->location[0].extract_x() + 1] = now_block->block_num;
+					map[now_block->location[1].extract_y() + 2][now_block->location[1].extract_x() + 2] = now_block->block_num;
+					map[now_block->location[2].extract_y() - 1][now_block->location[2].extract_x() - 1] = now_block->block_num;
+
+					now_block->location[0].set(now_block->location[0].extract_x() + 1, now_block->location[0].extract_y() + 1);
+					now_block->location[1].set(now_block->location[1].extract_x() + 2, now_block->location[1].extract_y() + 2);
+					now_block->location[2].set(now_block->location[2].extract_x() - 1, now_block->location[2].extract_y() - 1);
+					++now_block->state;
+					break;
+				case 1:
+					map[now_block->location[0].extract_y()][now_block->location[0].extract_x()] = 0;
+					map[now_block->location[1].extract_y()][now_block->location[1].extract_x()] = 0;
+					map[now_block->location[2].extract_y()][now_block->location[2].extract_x()] = 0;
+
+					map[now_block->location[0].extract_y() - 1][now_block->location[0].extract_x() - 1] = now_block->block_num;
+					map[now_block->location[1].extract_y() - 2][now_block->location[1].extract_x() - 2] = now_block->block_num;
+					map[now_block->location[2].extract_y() + 1][now_block->location[2].extract_x() + 1] = now_block->block_num;
+
+					now_block->location[0].set(now_block->location[0].extract_x() - 1, now_block->location[0].extract_y() - 1);
+					now_block->location[1].set(now_block->location[1].extract_x() - 2, now_block->location[1].extract_y() - 2);
+					now_block->location[2].set(now_block->location[2].extract_x() + 1, now_block->location[2].extract_y() + 1);
+					now_block->state = 0;
+					break;
+				}
+			}
 		}
 	}
 	update();
@@ -338,7 +370,7 @@ void Tetris::checkLine() {
 	while (test_loop) {
 		int i;
 		for (i = 0; i < map_width; ++i) {
-			if (map[i][now_height] == 0)
+			if (map[now_height][i] == 0)
 				break;
 		}
 		if (i == map_width) {
@@ -356,7 +388,7 @@ void Tetris::checkLine() {
 		}
 		int check;
 		for (check = 0; check < map_width; ++check) {
-			if (map[check][now_height] != 0)
+			if (map[now_height][check] != 0)
 				break;
 		}
 		if (check == map_width)
