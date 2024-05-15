@@ -4,6 +4,7 @@ block::block(int type, int center_x, int center_y, int num) {
 	this->center_x = center_x;
 	this->center_y = center_y;
 	this->block_num = num;
+	state = 0;
 	coordinate temp;
 	switch (type) {
 	case 0:
@@ -49,6 +50,3 @@ block::block(int type, int center_x, int center_y, int num) {
 	}
 }
 
-void change_map(int** map) {
-	
-}

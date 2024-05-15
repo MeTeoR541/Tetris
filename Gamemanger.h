@@ -19,10 +19,11 @@ private:
 class block {
 public:
 	block(int type, int center_x, int center_y, int num);
-	void change_map(int** map);
+
 	int block_num;
 	int center_x;
 	int center_y;
 	int type;
+	int state;
 	vector<coordinate> location;
 };
