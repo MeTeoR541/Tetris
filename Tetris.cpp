@@ -7,14 +7,14 @@ Tetris::Tetris(QWidget *parent) :QWidget(parent) {
 	this->setMaximumHeight(640);
 	timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-	timer->start(50);
+	timer->start(500);
 	for (int i = 0; i < map_height; ++i) {
 		for (int j = 0; j < map_width; ++j) {
 			map[i][j] = 0;
 		}
 	}
 	num = 1;
-	now_block = new block(rand() % 5, rand() % 16, 1, 1);
+	now_block = new block(rand() % 5, rand() % 12 + 2, 1, 1);
 	map[now_block->center_y][now_block->center_x] = now_block->block_num;
 	map[now_block->location[0].extract_y()][now_block->location[0].extract_x()] = now_block->block_num;
 	map[now_block->location[1].extract_y()][now_block->location[1].extract_x()] = now_block->block_num;
@@ -34,7 +34,11 @@ void Tetris::paintEvent(QPaintEvent*) {
 		for (int j = 0; j < map_width; ++j) {
 			if (map[i][j] != 0) {
 				int color = map[i][j] * 10;
-				QBrush brush(QColor((255 - color) % 256, (255 - color) % 256, (255 - color) % 256));
+				if (color > 255)
+					color = (color - 255) % 256;
+				else
+					color = (255 - color) % 256;
+				QBrush brush(QColor(color, color, color));
 				QPen pen(QColor(0, 0, 0));
 				painter.setBrush(brush);
 				painter.setPen(pen);
@@ -74,7 +78,7 @@ void Tetris::keyPressEvent(QKeyEvent* event) {
 		}
 	}
 	else if (event->key() == Qt::Key_Right) {
-		if (now_block->center_x != 31 && now_block->location[0].extract_x() != 31 && now_block->location[1].extract_x() != 31 && now_block->location[2].extract_x() != 31) {
+		if (now_block->center_x != 15 && now_block->location[0].extract_x() != 15 && now_block->location[1].extract_x() != 15 && now_block->location[2].extract_x() != 15) {
 			if (map[now_block->center_y][now_block->center_x + 1] == 0 || map[now_block->center_y][now_block->center_x + 1] == now_block->block_num) {
 				if (map[now_block->location[0].extract_y()][now_block->location[0].extract_x() + 1] == 0 || map[now_block->location[0].extract_y()][now_block->location[0].extract_x() + 1] == now_block->block_num) {
 					if (map[now_block->location[1].extract_y()][now_block->location[1].extract_x() + 1] == 0 || map[now_block->location[1].extract_y()][now_block->location[1].extract_x() + 1] == now_block->block_num) {
@@ -135,7 +139,7 @@ bool Tetris::land() {
 
 bool Tetris::arrive() {
 	delete now_block;
-	now_block = new block(rand() % 5, rand() % 16, 1, num);
+	now_block = new block(rand() % 5, rand() % 12 + 2, 1, num);
 	map[now_block->center_y][now_block->center_x] = now_block->block_num;
 	map[now_block->location[0].extract_y()][now_block->location[0].extract_x()] = now_block->block_num;
 	map[now_block->location[1].extract_y()][now_block->location[1].extract_x()] = now_block->block_num;
